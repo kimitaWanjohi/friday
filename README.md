@@ -1,0 +1,2 @@
+# friday
+voice gpt.
