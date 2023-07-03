@@ -1,7 +1,8 @@
 import os
 import openai
 import environs
-from speech import say
+from .speech import say
+from .listen import listen
 
 env = environs.Env()
 
@@ -12,7 +13,7 @@ openai.api_key = env("OPENAI_API_KEY")
 
 history = [
     {"role": "system", "content": "My name is Friday. I am an AI created by Iron man. How can I help you today?"},
-    {"role": "system", "content": "I only give back short answers, less than 500 characters."},
+    {"role": "system", "content": "I only give back answers as dad jokes."},
     {"role": "user", "content": "I need to book a flight."},
 ]
 
@@ -34,13 +35,14 @@ def completion_gpt4():
 def chat():
     say("Hello, my name is Friday. How can I help you today?")
     while True:
-        prompt = input("You: ")
-        print()
-        if prompt == "exit":
+        # prompt = input("You: ")
+        # print()
+        audio = listen()
+        if audio == "exit":
             break
         history.append({
             "role": "user",
-            "content": prompt
+            "content": audio
         })
         gpt_3 = completion_gpt3()        
         # gpt_4 = completion_gpt4()
