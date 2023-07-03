@@ -13,7 +13,7 @@ To use Friday, you need to have Python 3.7 or higher installed on your system. O
 1. Clone this repository to your local machine.
 2. Install the required dependencies by running `pip install -r requirements.txt`.
 3. Run `python main.py` to start the app.
-4. For linux users make sure that you have `ffmpeg` installed.
+4. Make sure that you have `ffmpeg` and `ffplay` installed.
    
 ## Usage
 To use Friday, simply speak your commands into your device's microphone. Friday will understand your request and perform the relevant action. If you need help, say "help" or "what can you do?" to get a list of available commands.
