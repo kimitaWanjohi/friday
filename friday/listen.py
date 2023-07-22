@@ -5,7 +5,7 @@ def listen():
     with sr.Microphone() as source:
         print("Listening...")
         r.pause_threshold = 1
-        audio = r.listen(source, timeout=10, phrase_time_limit=5)
+        audio = r.listen(source)
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language='en-us')
