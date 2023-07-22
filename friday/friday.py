@@ -1,8 +1,11 @@
 import os
 import openai
 import environs
+import threading
 from .speech import say
 from .listen import listen
+from .functions import functions
+from .typing import typing
 
 env = environs.Env()
 
@@ -13,13 +16,13 @@ openai.api_key = env("OPENAI_API_KEY")
 
 history = [
     {"role": "system", "content": "My name is Friday. I am an AI created by Iron man. How can I help you today?"},
-    {"role": "system", "content": "I only give back answers as dad jokes."},
-    {"role": "user", "content": "I need to book a flight."},
+    {"role": "system", "content": "I can help you do anything you want. I can book a flight, play music, tell you the weather, and more."},
+    {"role": "system", "content": "I don't mention that I am an AI or say as a large language model, make the conversation more natural."},
 ]
 
 def completion_gpt3():
     completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-0613",
         messages=history
     )
     return completion.choices[0]["message"]
@@ -32,11 +35,17 @@ def completion_gpt4():
     return completion.choices[0]["message"]
 
 
+def run_threaded(content):
+    thread1 = threading.Thread(target=typing, args=(content,))
+    thread2 = threading.Thread(target=say, args=(content,))
+    thread1.start()
+    thread2.start()
+    
+
 def chat():
     say("Hello, my name is Friday. How can I help you today?")
     while True:
-        # prompt = input("You: ")
-        # print()
+
         audio = listen()
         if audio == "exit":
             break
@@ -46,9 +55,7 @@ def chat():
         })
         gpt_3 = completion_gpt3()        
         # gpt_4 = completion_gpt4()
-        print()
-        say(gpt_3.content)
-        print("Friday:", gpt_3.content)
+        run_threaded(gpt_3.content)
         history.append(gpt_3)
 
 chat()
